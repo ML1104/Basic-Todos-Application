@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Basic Todos Application</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="container">
+            <div id="menu">
+                <input type="checkbox">
+                <input id="input" v-model="todo"  type="text" placeholder="What do you need to do?">
+                <button v-on:click="addTemplate()" id="submit">Create</button>
+                <div v-on:click="removeTemplate(); addTodo()" id="clear">Clear List</div>
+            </div>
+            <div id="content">
+                <div id="todo-holder" v-for="n in range">
+                    <todo-item>{{ todo }}</todo-item>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        
+        Vue.component('todo-item', {
+            template: '#todo-item'
+        })
+
+        var app = new Vue ({
+            el: "#app",
+            data: {
+                range: 0,
+                todo: ""
+            },
+
+            methods: {
+                addTemplate() {
+                   if (this.range < 5) {
+                        this.range += 1;
+                   } else {
+                       alert("Max todos reached, please remove some to add new")
+                       return;
+                   }
+                    
+                },
+
+                removeTemplate() {
+                   var todos = document.querySelectorAll('.todo');
+                   for (i = 0; i < todos.length; i++) {
+                       todos[i].remove();
+                   }
+                },
+            }
+        })
+    </script>
+
+    <script type="template" id="todo-item">
+        <div class="todo">
+            <input type="checkbox">
+            <div class="todo-text">
+            <slot></slot>
+            </div>
+        </div>
+    </script>
+</body>
+</html>
